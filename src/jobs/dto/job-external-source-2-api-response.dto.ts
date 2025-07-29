@@ -39,7 +39,7 @@ export class DataDto {
   jobsList: JobListDto;
 }
 
-export class JobExternalSource2ResponseDto {
+export class JobExternalSource2ApiResponseDto {
   status: 'success' | 'failure';
   data: DataDto;
 }

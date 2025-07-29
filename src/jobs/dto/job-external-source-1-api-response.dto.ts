@@ -25,7 +25,7 @@ export class MetadataDto {
     timestamp: string;
 }
 
-export class JobExternalSource1ResponseDto {
+export class JobExternalSource1ApiResponseDto {
     metadata: MetadataDto;
     jobs: JobExternalSource1Dto[];
 }
