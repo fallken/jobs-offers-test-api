@@ -1,0 +1,6 @@
+
+
+export const DEFAULT_PAGE_SIZE = 10;
+export const MAX_PAGE_SIZE = 100;
+export const EXTERNAL_API_TIMEOUT = 5000; 
+export const EXTERNAL_JOB_SYNC_CRON_NAME = "EXTERNAL_JOB_SYNC_CRON"; 

@@ -1,12 +1,16 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { JobsService } from './jobs.service';
+import { JobsExternalApiService } from './services/jobs-external-api.service';
+import { JobsService } from './services/jobs.service';
 
 @Controller('job-offers')
 export class JobsController {
-  constructor(private readonly jobsService: JobsService) {}
+  constructor(
+    private readonly jobsService: JobsService,
+    private readonly jobsExternalApiService: JobsExternalApiService,
+  ) {}
 
   @Get()
   findAll() {
-    return "working";
+    return this.jobsExternalApiService.fetchSource1();
   }
 }
