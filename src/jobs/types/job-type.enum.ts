@@ -1,5 +1,7 @@
 export enum JobType {
-  REMOTE = 'remote',
-  FULL_TIME = 'full-time',
-  PART_TIME = 'part-time',
-}
+  "Remote" = 'Remote',
+  "Full-Time" = 'Full-Time',
+  "Part-Time" = 'Part-Time',
+  "Parts-Time" = 'Part-Time',
+  "Contract" = 'Contract',
+} 

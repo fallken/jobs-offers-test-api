@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Index } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Index, Unique } from 'typeorm';
 import { Currency, JobType } from '../types';
 
 @Entity('jobs')
-export class Job {
+@Unique(['jobId'])
+export class JobEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
