@@ -1,16 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { JobsExternalApiService } from './services/jobs-external-api.service';
+import { Controller, Get, Query } from '@nestjs/common';
 import { JobsService } from './services/jobs.service';
+import { IJobEndpoints, JobEndpointPaths } from './interfaces/jobs.endpoint.interface';
+import { JobsListRequest, JobsListResponseDto } from './dto';
 
-@Controller('job-offers')
-export class JobsController {
+@Controller(JobEndpointPaths.list)
+export class JobsController implements IJobEndpoints {
   constructor(
     private readonly jobsService: JobsService,
-    private readonly jobsExternalApiService: JobsExternalApiService,
-  ) {}
+  ) { }
 
   @Get()
-  findAll() {
-    return this.jobsExternalApiService.fetchSource1();
+  list(@Query() request: JobsListRequest): Promise<JobsListResponseDto> {
+    return this.jobsService.list(request);
   }
 }

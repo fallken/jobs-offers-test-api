@@ -48,9 +48,7 @@ export class JobEntity {
     @Column()
     salaryMin: number;
 
-    @Column({
-        type: 'varchar'
-    })
+    @Column()
     salaryMax: number;
 
     @Column({
