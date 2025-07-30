@@ -16,7 +16,6 @@ import { CoreModule } from './core/core.module';
     }),
     DatabaseModule,
     JobsModule,
-    LoggerModule,
     CoreModule,
   ],
   controllers: [],

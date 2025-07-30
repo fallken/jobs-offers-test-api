@@ -22,6 +22,6 @@ export class JobsModule implements OnApplicationBootstrap {
   ) { }
 
   async onApplicationBootstrap() {
-    await this.service.fetchExternalJobSources();
+    // await this.service.fetchExternalJobSources();
   }
 }

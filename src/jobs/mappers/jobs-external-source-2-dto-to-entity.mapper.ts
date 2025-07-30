@@ -1,16 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { JobEntity } from '../entities/job.entity';
-import { JobExternalSource1Dto } from '../dto/job-external-source-1-api-response.dto';
 import { JobExternalSource2Dto, JobListDto } from '../dto/job-external-source-2-api-response.dto';
-import { Currency, JobType } from '../types';
-  
+import { JobType } from '../types';
+import { LoggerService } from '@/logger/services';
+
 @Injectable()
 export class JobExternalSource2DtoToEntityMapper {
-    mapDtoToEntities(dto: JobListDto): JobEntity[] {
-        return Object.keys(dto).map(key => this.mapExternalSource2ToJobToEntity(key, dto[key]))
+    constructor(
+        private readonly logger: LoggerService,
+    ) {
+        this.logger.setContext(this.constructor.name);
     }
 
-    private mapExternalSource2ToJobToEntity(jobId: string, dto: JobExternalSource2Dto): JobEntity {
+
+    mapDtoToEntities(dtos: JobListDto, correlationId?: string): JobEntity[] {
+        this.logger.info("[JobExternalSource2DtoToEntityMapper][mapDtoToEntities]", { dtoLength: dtos.length, correlationId });
+
+        return Object.keys(dtos).map(key => this.mapExternalSource2ToJobToEntity(key, dtos[key]))
+    }
+
+    private mapExternalSource2ToJobToEntity(jobId: string, dto: JobExternalSource2Dto, correlationId?: string): JobEntity {
+        this.logger.info("[JobExternalSource2DtoToEntityMapper][mapExternalSource2ToJobToEntity]", { jobId, dto, correlationId });
+
         const job = new JobEntity();
         job.position = dto.position;
         job.jobId = jobId;

@@ -5,7 +5,7 @@ import { JobExternalSource1DtoToEntityMapper, JobExternalSource2DtoToEntityMappe
 import { JobExternalSource1ApiResponseDto, JobExternalSource2ApiResponseDto, JobsListRequest, JobsListResponseDto } from '../dto';
 import { JobEntity } from '../entities/job.entity';
 import { JobsListQueryBuilder } from '../utils/list-query-builder';
-import { PinoLogger } from 'nestjs-pino';
+import { LoggerService } from '@/logger/services';
 
 @Injectable()
 export class JobsService {
@@ -14,7 +14,7 @@ export class JobsService {
         private readonly repository: JobsRepository,
         private readonly externalDtoSource1ToEntityMapper: JobExternalSource1DtoToEntityMapper,
         private readonly externalDtoSource2ToEntityMapper: JobExternalSource2DtoToEntityMapper,
-        private readonly logger: PinoLogger,
+        private readonly logger: LoggerService,
     ) { }
 
     /**
@@ -22,7 +22,12 @@ export class JobsService {
      * @param request 
      * @returns 
      */
-    async list(request: JobsListRequest): Promise<JobsListResponseDto> {
+    async list(request: JobsListRequest, correlationId?: string): Promise<JobsListResponseDto> {
+        this.logger.info("[JobsService][list]", {
+            ...request,
+            correlationId,
+        });
+
         const page = request.page || 1;
         const pageSize = request.pageSize || 10;
 
@@ -35,7 +40,13 @@ export class JobsService {
         const [jobs, total] = await jobsQueryBuilder.paginate(page, pageSize);
 
 
-        this.logger.info(`Found ${total} jobs`);
+        this.logger.info("[JobsService][list] results", {
+            correlationId,
+            jobs,
+            total,
+            page,
+            pageSize,
+        });
 
         return {
             jobs,
@@ -48,15 +59,15 @@ export class JobsService {
     /**
      * Description: fetch external job endpoints and update the database with the new job items. there will be no duplicates
      */
-    async fetchExternalJobSources() {
-        const jobSource1: JobExternalSource1ApiResponseDto = await this.externalJobsApi.fetchSource1();
-        const jobSource2: JobExternalSource2ApiResponseDto = await this.externalJobsApi.fetchSource2();
+    async fetchExternalJobSources(correlationId?: string) {
+        const jobSource1: JobExternalSource1ApiResponseDto = await this.externalJobsApi.fetchSource1(correlationId);
+        const jobSource2: JobExternalSource2ApiResponseDto = await this.externalJobsApi.fetchSource2(correlationId);
         const entities: JobEntity[] = [
-            ...this.externalDtoSource1ToEntityMapper.mapDtoToEntities(jobSource1.jobs),
-            ...this.externalDtoSource2ToEntityMapper.mapDtoToEntities(jobSource2.data.jobsList)
+            ...this.externalDtoSource1ToEntityMapper.mapDtoToEntities(jobSource1.jobs, correlationId),
+            ...this.externalDtoSource2ToEntityMapper.mapDtoToEntities(jobSource2.data.jobsList, correlationId)
         ];
 
-        await this.repository.upsert(this.filterDuplicateJobs(entities));
+        await this.repository.upsert(this.filterDuplicateJobs(entities, correlationId));
     }
 
     /**
@@ -64,7 +75,12 @@ export class JobsService {
      * @param jobs 
      * @returns 
      */
-    private filterDuplicateJobs(jobs: JobEntity[]): JobEntity[] {
+    private filterDuplicateJobs(jobs: JobEntity[], correlationId?: string): JobEntity[] {
+        this.logger.info("[JobsService][filterDuplicateJobs]", {
+            jobsLength: jobs.length,
+            correlationId,
+        });
+
         const jobIdSet: Set<string> = new Set<string>();
         const uniqueJobs: JobEntity[] = [];
 

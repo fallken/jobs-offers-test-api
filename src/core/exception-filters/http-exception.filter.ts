@@ -1,11 +1,11 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { HTTP_HEADER_CORRELATION_ID } from '../constants/http-headers.constant';
-import { PinoLogger } from 'nestjs-pino';
+import { LoggerService } from '@/logger/services';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
-    constructor(private readonly logger: PinoLogger) {
+    constructor(private readonly logger: LoggerService) {
         this.logger.setContext(this.constructor.name)
     }
 

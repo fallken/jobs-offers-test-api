@@ -5,5 +5,5 @@ export enum JobEndpointPaths {
 }
 
 export interface IJobEndpoints {
-    list(request: JobsListRequest): Promise<JobsListResponseDto>
+    list(request: JobsListRequest, correlationId?: string): Promise<JobsListResponseDto>
 }
