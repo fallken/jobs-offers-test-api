@@ -4,6 +4,8 @@ import { ConfigService } from '@nestjs/config';
 import { JobsService } from '../services/jobs.service';
 import { CronJob } from 'cron';
 import { EXTERNAL_JOB_SYNC_CRON_NAME } from '../constants';
+import { LoggerService } from '@/logger/services';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class FetchJobsCron implements OnModuleInit, OnModuleDestroy {
@@ -11,19 +13,36 @@ export class FetchJobsCron implements OnModuleInit, OnModuleDestroy {
         private readonly service: JobsService,
         private readonly schedulerRegistry: SchedulerRegistry,
         private readonly config: ConfigService,
-    ) { }
+        private readonly logger: LoggerService,
+    ) {
+        this.logger.setContext(this.constructor.name);
+    }
 
     onModuleInit() {
-        const job = new CronJob(this.config.get("EXTERNAL_JOB_SYNC_CRON_VALUE", CronExpression.EVERY_5_MINUTES), async () => {
-            await this.service.fetchExternalJobSources();
+        const cronJobPeriod = this.config.get("EXTERNAL_JOB_SYNC_CRON_VALUE", CronExpression.EVERY_5_MINUTES);
+
+        this.logger.info("[FetchJobsCron][onModuleDestroy] Initiating CronJob", { EXTERNAL_JOB_SYNC_CRON_NAME, cronJobPeriod })
+
+        const job = new CronJob(cronJobPeriod, async () => {
+            const correlationId = uuid();
+
+            this.logger.info("[FetchJobsCron][onModuleInit]", {
+                EXTERNAL_JOB_SYNC_CRON_NAME,
+                cronJobPeriod,
+                correlationId,
+            });
+
+            await this.service.fetchExternalJobSources(correlationId);
         });
-    
+
         this.schedulerRegistry.addCronJob(EXTERNAL_JOB_SYNC_CRON_NAME, job);
 
         job.start();
     }
 
     onModuleDestroy() {
+        this.logger.info("[FetchJobsCron][onModuleDestroy] Deleting CronJob", { EXTERNAL_JOB_SYNC_CRON_NAME });
+
         this.schedulerRegistry.deleteCronJob(EXTERNAL_JOB_SYNC_CRON_NAME);
     }
 }
