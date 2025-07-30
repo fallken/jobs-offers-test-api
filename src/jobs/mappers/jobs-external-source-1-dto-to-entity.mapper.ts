@@ -23,16 +23,17 @@ export class JobExternalSource1DtoToEntityMapper {
 
         const job = new JobEntity();
         const salaryRange = dto.details.salaryRange.match(/\d+/g);
+        const [city , state] = dto.details.location.split(',').map(next=>next.trim())
 
         job.jobId = dto.jobId;
         job.position = dto.title;
-        job.city = dto.details.location;
+        job.city = city;
         job.type = JobType[dto.details.type] ?? JobType['Full-Time'];
         job.company = dto.company.name;
         job.industry = dto.company.industry;
         job.salaryMax = salaryRange ? parseInt(salaryRange[1]) * 1000 : 0;
         job.salaryMin = salaryRange ? parseInt(salaryRange[0]) * 1000 : 0;
-        job.state = dto.details.location.split(',')[1].trim();
+        job.state = state;
         job.datePosted = new Date(dto.postedDate);
         job.technologies = dto.skills;
         job.currency = Currency.USD;
