@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  db_e2e:
+    image: postgres:17.5-alpine
+    container_name: postgres_db_e2e
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: job_market_e2e
+      POSTGRES_PASSWORD: job_market_e2e
+      POSTGRES_DB: job_market_e2e
+    volumes:
+      - db_data_e2e:/var/lib/postgresql/data
+
+volumes:
+  db_data_e2e:

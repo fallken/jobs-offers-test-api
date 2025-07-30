@@ -4,7 +4,7 @@ import { JobsExternalApiService } from './services/jobs-external-api.service';
 import { HttpModule } from '@nestjs/axios';
 import { JobExternalSource1DtoToEntityMapper, JobExternalSource2DtoToEntityMapper } from './mappers';
 import { JobsService } from './services/jobs.service';
-import { JobsRepository } from './repositories/jobs.repositories';
+import { JobsRepository } from './repositories/jobs.repository';
 import { FetchJobsCron } from './crons/fetch-jobs.cron';
 
 const Mappers = [

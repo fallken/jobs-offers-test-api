@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JobsExternalApiService } from './jobs-external-api.service';
-import { JobsRepository } from '../repositories/jobs.repositories';
+import { JobsRepository } from '../repositories/jobs.repository';
 import { JobExternalSource1DtoToEntityMapper, JobExternalSource2DtoToEntityMapper } from '../mappers';
 import { JobExternalSource1ApiResponseDto, JobExternalSource2ApiResponseDto, JobsListRequest, JobsListResponseDto } from '../dto';
 import { JobEntity } from '../entities/job.entity';

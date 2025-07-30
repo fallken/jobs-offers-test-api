@@ -19,16 +19,16 @@ export class FetchJobsCron implements OnModuleInit, OnModuleDestroy {
     }
 
     onModuleInit() {
-        const cronJobPeriod = this.config.get("EXTERNAL_JOB_SYNC_CRON_VALUE", CronExpression.EVERY_5_MINUTES);
+        const cronJobFrequency = this.config.get("EXTERNAL_JOB_SYNC_CRON_VALUE", CronExpression.EVERY_5_MINUTES);
 
-        this.logger.info("[FetchJobsCron][onModuleDestroy] Initiating CronJob", { EXTERNAL_JOB_SYNC_CRON_NAME, cronJobPeriod })
+        this.logger.info("[FetchJobsCron][onModuleDestroy] Initiating CronJob", { EXTERNAL_JOB_SYNC_CRON_NAME, cronJobFrequency })
 
-        const job = new CronJob(cronJobPeriod, async () => {
+        const job = new CronJob(cronJobFrequency, async () => {
             const correlationId = uuid();
 
             this.logger.info("[FetchJobsCron][onModuleInit]", {
                 EXTERNAL_JOB_SYNC_CRON_NAME,
-                cronJobPeriod,
+                cronJobFrequency,
                 correlationId,
             });
 
