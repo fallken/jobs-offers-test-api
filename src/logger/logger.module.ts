@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { LoggerModule as PinoLoggerModule } from 'nestjs-pino';
-import { HTTP_HEADER_CORRELATION_ID } from './constants';
 import { v4 as uuid, validate } from 'uuid';
 import { EnvService } from '@/core';
+import { HTTP_HEADER_CORRELATION_ID } from '@/core';
 
 @Module({
     imports: [
@@ -20,7 +19,7 @@ import { EnvService } from '@/core';
                                 target: 'pino-pretty',
                             }
                             : undefined,
-                        logLevel,
+                        level: logLevel,
                         genReqId: (request, response) => {
                             let correlationId = request.headers[HTTP_HEADER_CORRELATION_ID.toLowerCase()];
 
@@ -34,11 +33,11 @@ import { EnvService } from '@/core';
 
                             return correlationId;
                         },
-                    }
+                    },
                 }
             }
         }),
     ],
-    exports: [PinoLoggerModule],
+    exports: [],
 })
 export class LoggerModule { }
