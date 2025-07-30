@@ -1,5 +1,5 @@
 import { Module, OnApplicationBootstrap } from '@nestjs/common';
-import { JobsController } from './jobs.controller';
+import { JobsController } from './controllers';
 import { JobsExternalApiService } from './services/jobs-external-api.service';
 import { HttpModule } from '@nestjs/axios';
 import { JobExternalSource1DtoToEntityMapper, JobExternalSource2DtoToEntityMapper } from './mappers';

@@ -26,13 +26,14 @@ export class JobsService {
         const page = request.page || 1;
         const pageSize = request.pageSize || 10;
 
+        const repo = this.repository.repository;
 
-        const queryBuilder = this.repository.repository.createQueryBuilder('job');
+        const queryBuilder = repo.createQueryBuilder('job');
         const jobsQueryBuilder = new JobsListQueryBuilder(queryBuilder);
 
         jobsQueryBuilder.applyFilters(request);
-
         const [jobs, total] = await jobsQueryBuilder.paginate(page, pageSize);
+
 
         this.logger.info(`Found ${total} jobs`);
 
