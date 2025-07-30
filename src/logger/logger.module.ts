@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { LoggerModule as PinoLoggerModule } from 'nestjs-pino';
 import { v4 as uuid, validate } from 'uuid';
 import { EnvService } from '@/core';
 import { HTTP_HEADER_CORRELATION_ID } from '@/core';
+import { LoggerService } from './services';
 
+@Global()
 @Module({
     imports: [
         PinoLoggerModule.forRootAsync({
@@ -38,6 +40,7 @@ import { HTTP_HEADER_CORRELATION_ID } from '@/core';
             }
         }),
     ],
-    exports: [],
+    providers: [LoggerService],
+    exports: [LoggerService],
 })
 export class LoggerModule { }
