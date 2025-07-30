@@ -75,7 +75,7 @@ export class JobsService {
      * @param jobs 
      * @returns 
      */
-    private filterDuplicateJobs(jobs: JobEntity[], correlationId?: string): JobEntity[] {
+    filterDuplicateJobs(jobs: JobEntity[], correlationId?: string): JobEntity[] {
         this.logger.info("[JobsService][filterDuplicateJobs]", {
             jobsLength: jobs.length,
             correlationId,

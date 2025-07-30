@@ -71,7 +71,6 @@ describe('FetchJobsCron', () => {
         jobsService = module.get<JobsService>(JobsService);
         schedulerRegistry = module.get<SchedulerRegistry>(SchedulerRegistry);
         envService = module.get<EnvService>(EnvService);
-        loggerService = module.get<LoggerService>(LoggerService);
     });
 
     it('should be defined', () => {
