@@ -6,8 +6,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class JobsListRequest {
   @ApiProperty({ 
-    description: 'The position of the job',
-    example: 'Software Engineer, Backend Engineer, Data Scientist',
+    description: 'The position of the job e.g: Software Engineer, Backend Engineer, Data Scientist',
     required: false,
   })
   @IsOptional()
@@ -16,7 +15,6 @@ export class JobsListRequest {
 
   @ApiProperty({ 
     description: 'The state where the job is located e.g CA , TX , WA',
-    example: 'CA',
     required: false,
   })
   @IsOptional()
@@ -25,7 +23,6 @@ export class JobsListRequest {
 
   @ApiProperty({ 
     description: 'The city where the job is located e.g San Francisco, New York, Austin',
-    example: 'San Francisco',
     required: false,
   })
   @IsOptional()
@@ -33,8 +30,7 @@ export class JobsListRequest {
   readonly city?: string;
 
   @ApiProperty({ 
-    description: 'The company offering the job e.g BackEnd Solutions , TechCorp ,Creative Design Ltd',
-    example: 'Google',
+    description: 'The company offering the job e.g BackEnd Solutions, DataWorks, TechCorp ,Creative Design Ltd',
     required: false,
   })
   @IsOptional()
