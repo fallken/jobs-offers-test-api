@@ -20,9 +20,10 @@ export class JobsController implements IJobEndpoints {
   @ApiResponse({ status: 200, description: 'List of jobs', type: JobsListResponseDto })
   @ApiBadRequestResponse({
     description: 'Bad Request - Validation errors',
-    type: ErrorBadRequestResponseDto, 
+    type: ErrorBadRequestResponseDto,
   })
   list(@Query() request: JobsListRequest, @CorrelationId() correlationId: string): Promise<JobsListResponseDto> {
+    this.logger.info("[JobsController][list]", { request, correlationId });
     return this.jobsService.list(request, correlationId);
   }
 }

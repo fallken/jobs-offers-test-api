@@ -6,20 +6,21 @@ import { CronJob } from 'cron';
 import { EXTERNAL_JOB_SYNC_CRON_NAME } from '../constants';
 import { LoggerService } from '@/logger/services';
 import { v4 as uuid } from 'uuid';
+import { EnvService } from '@/core';
 
 @Injectable()
 export class FetchJobsCron implements OnModuleInit, OnModuleDestroy {
     constructor(
         private readonly service: JobsService,
         private readonly schedulerRegistry: SchedulerRegistry,
-        private readonly config: ConfigService,
+        private readonly envService: EnvService,
         private readonly logger: LoggerService,
     ) {
         this.logger.setContext(this.constructor.name);
     }
 
     onModuleInit() {
-        const cronJobFrequency = this.config.get("EXTERNAL_JOB_SYNC_CRON_VALUE", CronExpression.EVERY_5_MINUTES);
+        const cronJobFrequency = this.envService.getAsString("EXTERNAL_JOB_SYNC_CRON_VALUE", CronExpression.EVERY_5_MINUTES);
 
         this.logger.info("[FetchJobsCron][onModuleDestroy] Initiating CronJob", { EXTERNAL_JOB_SYNC_CRON_NAME, cronJobFrequency })
 
