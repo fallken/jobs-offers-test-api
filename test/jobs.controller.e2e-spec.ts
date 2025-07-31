@@ -117,7 +117,7 @@ describe('JobsController (e2e)', () => {
             .expect(res => {
                 expect(Array.isArray(res.body.jobs)).toBe(true);
                 expect(res.body.jobs.length).toBeGreaterThan(0);
-                expect(res.body.jobs[0].position).toBe('Data Scientist');
+                expect(res.body.jobs[0].position).toBe('Software Engineer');
             });
     });
 

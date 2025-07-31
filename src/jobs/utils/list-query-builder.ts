@@ -53,7 +53,7 @@ export class JobsListQueryBuilder {
   }
 
   async paginate(page: number, pageSize: number): Promise<[JobEntity[], number]> {
-    this.queryBuilder.skip((page - 1) * pageSize).take(pageSize);
+    this.queryBuilder.orderBy(`${this.alias}.id`, 'DESC').skip((page - 1) * pageSize).take(pageSize);
 
     return this.queryBuilder.getManyAndCount();
   }
