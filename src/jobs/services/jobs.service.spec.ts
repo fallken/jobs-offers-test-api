@@ -30,6 +30,7 @@ describe('JobsService', () => {
                 getManyAndCount: jest.fn().mockResolvedValue([[], 0]),
                 skip: jest.fn().mockReturnThis(),
                 take: jest.fn().mockReturnThis(),
+                orderBy: jest.fn().mockReturnThis(),
             }),
         },
     };
@@ -97,6 +98,7 @@ describe('JobsService', () => {
                 getManyAndCount: jest.fn().mockResolvedValue([jobs, total]),
                 skip: jest.fn().mockReturnThis(),
                 take: jest.fn().mockResolvedValue(10),
+                orderBy: jest.fn().mockReturnThis(),
             });
 
             const correlationId = uuid();
@@ -120,6 +122,7 @@ describe('JobsService', () => {
                 getManyAndCount: jest.fn().mockResolvedValue([mockJobs, mockTotal]),
                 skip: jest.fn().mockReturnThis(),
                 take: jest.fn().mockResolvedValue(10),
+                orderBy: jest.fn().mockReturnThis(),
             });
             const correlationId = uuid();
             const request: JobsListRequest = {};
