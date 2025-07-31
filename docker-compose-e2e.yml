@@ -11,8 +11,6 @@ services:
       POSTGRES_USER: job_market_e2e
       POSTGRES_PASSWORD: job_market_e2e
       POSTGRES_DB: job_market_e2e
-    volumes:
-      - db_data_e2e:/var/lib/postgresql/data
 
 volumes:
   db_data_e2e:
